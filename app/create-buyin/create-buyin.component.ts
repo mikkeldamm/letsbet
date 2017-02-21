@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 
 import * as application from "application";
+import * as firebase from "nativescript-plugin-firebase";
 
 declare var UIKeyboardWillChangeFrameNotification: any;
 declare var UIKeyboardFrameEndUserInfoKey: any;
@@ -25,7 +26,7 @@ import { iOSApplication } from "application";
     selector: "create-buyin",
     moduleId: module.id,
     templateUrl: "./create-buyin.component.html",
-    styleUrls: [ "./create-buyin-common.css" ]
+    styleUrls: ["./create-buyin-common.css"]
 })
 export class CreateBuyinComponent implements AfterViewInit {
 
@@ -70,12 +71,42 @@ export class CreateBuyinComponent implements AfterViewInit {
 
     public onTap() {
 
+        firebase.init({
+                onAuthStateChanged: function(data) { // optional
+                    console.log((data.loggedIn ? "Logged in to firebase" : "Logged out from firebase") + " (init's onAuthStateChanged callback)");
+                }
+            }).then(
+                (instance) => {
+                    console.log("firebase.init done");
 
+                    firebase.push('/lars', { name: 'Søren damm', age: 26});
+
+                    firebase.login({
+                        type: firebase.LoginType.FACEBOOK,
+                        scope: ['public_profile', 'email']
+                    }).then(
+                        (result) => {
+                            console.log("Login OK: ");
+                            console.log(JSON.stringify(result));
+                        },
+                        (errorMessage) => {
+                            console.log("Login Error: ");
+                            console.log(errorMessage);
+                        });
+                },
+                (error) => {
+                    console.log("firebase.init error: " + error);
+                });
+
+        
+
+        /*
         const textField = this.textContainer.nativeElement as TextField;
         if (textField) {
             //textField.dismissSoftInput();
         }
                 
         this._routerExtensions.navigate(["/create-bet"]);
+        */
     }
 }

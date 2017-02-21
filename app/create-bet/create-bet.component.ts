@@ -94,7 +94,7 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onTap() {
-
+        
         const newBet: Bet = {
             description: this.betDescription,
             buyin: null
