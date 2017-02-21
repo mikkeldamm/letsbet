@@ -1,0 +1,17 @@
+/* this will import the correct .ios/.adroind platform css */
+@import url("~/platform.css");
+
+.main {
+    width: 100%;
+}
+
+.main-brand {
+    text-align: center;
+    margin-top: 10;
+    margin-bottom: 20;
+    color: white;
+}
+
+.main-route {
+    width: 100%;
+}

@@ -1,0 +1,34 @@
+{
+  "description": "Letsbet app",
+  "readme": "Madsens app",
+  "nativescript": {
+    "id": "org.letsbet.app",
+    "tns-ios": {
+      "version": "2.5.0"
+    }
+  },
+  "dependencies": {
+    "@angular/common": "2.4.3",
+    "@angular/compiler": "2.4.3",
+    "@angular/core": "2.4.3",
+    "@angular/forms": "2.4.3",
+    "@angular/http": "2.4.3",
+    "@angular/platform-browser": "2.4.3",
+    "@angular/platform-browser-dynamic": "2.4.3",
+    "@angular/router": "3.4.3",
+    "@ngrx/core": "^1.2.0",
+    "@ngrx/store": "^2.2.1",
+    "nativescript-angular": "1.4.0",
+    "nativescript-theme-core": "~1.0.2",
+    "reflect-metadata": "~0.1.8",
+    "rxjs": "~5.0.1",
+    "tns-core-modules": "2.5.1",
+    "tslib": "^1.5.0"
+  },
+  "devDependencies": {
+    "nativescript-dev-android-snapshot": "^0.*.*",
+    "nativescript-dev-typescript": "~0.3.5",
+    "typescript": "~2.1.0",
+    "zone.js": "~0.7.2"
+  }
+}
