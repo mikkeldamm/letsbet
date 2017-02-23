@@ -7,6 +7,8 @@ import { AppState } from './store/app.state';
 import { Page } from "ui/page";
 import { topmost } from "ui/frame";
 
+import * as firebase from "nativescript-plugin-firebase";
+
 declare var NSMutableDictionary: any;
 declare var UIColor: any;
 declare var UITextAttributeTextColor: any;
@@ -24,6 +26,17 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit() {
+
+        firebase.init({
+            onAuthStateChanged: (data) => { // optional
+                console.log((data.loggedIn ? "Logged in to firebase" : "Logged out from firebase") + " (init's onAuthStateChanged callback)");
+            }
+        }).then((instance) => {
+            console.log("firebase.init done");
+            firebase.push('/lars', { name: 'Damm damm', age: 20});
+        }, (err) => {
+            console.log("firebase.error");
+        });
 
         this._store.select(s => s).subscribe(s => { 
             if (s.bet.bets.length > 0) {

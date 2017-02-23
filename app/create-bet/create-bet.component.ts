@@ -13,7 +13,6 @@ import { Bet } from './../store/app.model';
 import { KeyboardObserver } from './../utils/keyboard-observer';
 
 import * as application from "application";
-var contacts = require( "nativescript-contacts" );
 
 declare var UIKeyboardWillChangeFrameNotification: any;
 declare var UIKeyboardFrameEndUserInfoKey: any;
@@ -64,16 +63,6 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public ngOnInit() {
 
-
-        contacts.getAllContacts().then(function(args){
-            console.log("getAllContacts Complete");
-            console.log(JSON.stringify(args));
-            /// Returns args: 
-            /// args.data: Generic cross platform JSON object, null if no contacts were found. 
-            /// args.reponse: "fetch" 
-        }, function(err){
-            console.log("Error: " + err);
-        });
     }
 
     public ngOnDestroy() {
@@ -112,12 +101,6 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
         };
 
         this._store.dispatch(this._actions.addBet(newBet))
-
-
-        const textField = this.textContainer.nativeElement as TextField;
-        if (textField) {
-            //textField.dismissSoftInput();
-        }
 
         this._router.navigate(["/create-buyin"]);
     }
