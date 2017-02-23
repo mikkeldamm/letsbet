@@ -47,12 +47,12 @@
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
-	<dict>
-		<key>CFBundleURLSchemes</key>
-		<array>
-		<string>fb186189071865578</string>
-		</array>
-	</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb186189071865578</string>
+			</array>
+		</dict>
 	</array>
 	<key>FacebookAppID</key>
 	<string>186189071865578</string>
@@ -60,10 +60,14 @@
 	<string>Lets bet</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-	<string>fbapi</string>
-	<string>fb-messenger-api</string>
-	<string>fbauth2</string>
-	<string>fbshareextension</string>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
 	</array>
 </dict>
 </plist>

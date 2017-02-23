@@ -28,6 +28,13 @@ export class AppComponent implements OnInit {
     public ngOnInit() {
 
         firebase.init({
+            onMessageReceivedCallback: function(message) {
+                console.log("Title: " + message.title);
+                console.log("Body: " + message.body);
+            },
+            onPushTokenReceivedCallback: function(token) {
+                console.log("Firebase push token: " + token);
+            },
             onAuthStateChanged: (data) => { // optional
                 console.log((data.loggedIn ? "Logged in to firebase" : "Logged out from firebase") + " (init's onAuthStateChanged callback)");
             }
