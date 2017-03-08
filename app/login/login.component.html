@@ -1,5 +1,6 @@
-<GridLayout rows="auto, auto, auto" columns="*" class="bg-container">
-  <Button row="0" col="0" class="facebook-button" Text="facebook" (tap)="onFacebookButtonTap()"></Button>
-  <Button row="1" col="0" class="facebook-button" Text="facebook logout" (tap)="onFacebookButtonLogoutTap()"></Button>
-  <Label row="2" col="0" class="info-text" Text="Vi bruger ALT! fra din profil"></Label>
+<GridLayout rows="auto, 300" columns="*" class="bg-container">
+  <Button row="0" col="0" class="facebook-button" Text="facebook" (tap)="onFacebookButtonLoginTap()" *ngIf="!isLoggedIn"></Button>
+  <Label row="1" col="0" class="info-text" Text="Vi bruger ALT! fra din profil" *ngIf="!isLoggedIn"></Label>
+  <Button row="0" col="0" class="facebook-button" Text="facebook logout" (tap)="onFacebookButtonLogoutTap()" *ngIf="isLoggedIn"></Button>
+  <TextView row="1" col="0" [Text]="loggedInText" class="text-container" *ngIf="isLoggedIn"></TextView>
 </GridLayout>

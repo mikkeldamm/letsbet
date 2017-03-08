@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { Http } from '@angular/http';
 
@@ -23,9 +23,16 @@ declare var FBSDKAccessToken: any;
     templateUrl: "./login.component.html",
     styleUrls: [ "./login-common.css" ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-    constructor(private _page: Page,
+    public isLoggedIn: boolean = false;
+    public email: string;
+    public accessToken: string;
+
+    public loggedInText: string = '';
+
+    constructor(private _cd: ChangeDetectorRef,
+                private _page: Page,
                 private _router: Router,
                 private _routerExtensions: RouterExtensions,
                 private _http: Http,
@@ -36,7 +43,54 @@ export class LoginComponent {
         this._page.backgroundSpanUnderStatusBar = true;
     }
 
-    public onFacebookButtonTap() {
+    public ngOnInit() {
+
+        this._store
+            .map(s => s.user)
+            .subscribe(user => {
+
+                this.isLoggedIn = user.isLoggedIn;
+                this.email = user.email;
+                this.accessToken = user.facebookAccessToken;
+                this._cd.detectChanges();
+
+                if (this.isLoggedIn) {
+                    
+                    this.loggedInText += this.email + '\n';
+                    this.loggedInText += '-------------------\n';
+                    this.loggedInText += this.accessToken + '\n';
+
+                    this._http.get('https://graph.facebook.com/v2.8/me/friends?fields=installed&access_token=' + user.facebookAccessToken)
+                        .map(res => res.json())
+                        .subscribe(res => {
+                            console.log("FBDATA: " + JSON.stringify(res));
+                            this.loggedInText += '-------------------\n';
+                            this.loggedInText += JSON.stringify(res) + '\n';
+                            this._cd.detectChanges();
+                        }, err => {
+                            console.log("FBERROR: " + JSON.stringify(err));
+                        });
+
+                    this._http.get('https://graph.facebook.com/v2.8/me/?access_token=' + user.facebookAccessToken)
+                        .map(res => res.json())
+                        .subscribe(res => {
+                            console.log("FBDATA: " + JSON.stringify(res));
+                            this.loggedInText += '-------------------\n';
+                            this.loggedInText += JSON.stringify(res) + '\n';
+                            this._cd.detectChanges();
+                        }, err => {
+                            console.log("FBERROR: " + JSON.stringify(err));
+                        });
+
+                } else {
+
+                    this.loggedInText = '';
+                    this._cd.detectChanges();
+                }
+            });
+    }
+
+    public onFacebookButtonLoginTap() {
 
         let user: User;
         this._store.take(1).map(s => s.user).subscribe(u => user = u);
