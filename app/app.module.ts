@@ -7,7 +7,8 @@ import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { rootReducer } from './store/root.reducer';
-import { Actions } from './store/app.actions';
+import { Actions as AppActions } from './store/app.actions';
+import { Actions as UserActions } from './store/user.actions';
 
 import { IOS_UTILS } from './utils/index';
 
@@ -18,6 +19,7 @@ import { AppComponent } from "./app.component";
 
 import { CreateBetModule } from "./create-bet/create-bet.module";
 import { CreateBuyinModule } from "./create-buyin/create-buyin.module";
+import { LoginModule } from "./login/login.module";
 
 setStatusBarColors();
 
@@ -29,10 +31,12 @@ setStatusBarColors();
         NativeScriptRouterModule.forRoot(appRoutes),
         StoreModule.provideStore(rootReducer),
         CreateBetModule,
-        CreateBuyinModule
+        CreateBuyinModule,
+        LoginModule
     ],
     providers: [
-        Actions,
+        AppActions,
+        UserActions,
         ...IOS_UTILS
     ],
     declarations: [

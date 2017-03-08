@@ -21,7 +21,9 @@
     "nativescript-angular": "1.4.0",
     "nativescript-contacts": "^1.5.0",
     "nativescript-google-mobile-ads-sdk": "^1.0.5",
-    "nativescript-plugin-firebase": "^3.10.0",
+    "nativescript-onesignal": "^1.0.6",
+    "nativescript-plugin-firebase": "^3.10.1",
+    "nativescript-push-notifications": "^0.1.2",
     "nativescript-theme-core": "~1.0.2",
     "reflect-metadata": "~0.1.8",
     "rxjs": "~5.0.1",
@@ -31,7 +33,7 @@
   "devDependencies": {
     "nativescript-dev-android-snapshot": "^0.*.*",
     "nativescript-dev-typescript": "~0.3.5",
-    "typescript": "~2.1.0",
+    "typescript": "~2.2.1",
     "zone.js": "~0.7.2"
   }
 }

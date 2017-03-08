@@ -71,6 +71,10 @@ export class CreateBuyinComponent implements AfterViewInit {
 
     public onTap() {
 
+
+        this._router.navigate(["/login"]);
+
+        /*
         firebase.login({
             type: firebase.LoginType.FACEBOOK,
             scope: ['public_profile', 'email']
@@ -83,7 +87,7 @@ export class CreateBuyinComponent implements AfterViewInit {
                 console.log("Login Error: ");
                 console.log(errorMessage);
             });
-
+            */
         
 
         /*

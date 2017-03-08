@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-import { BetState, initialState } from './app.state';
+import { BetState, initialBetState } from './app.state';
 import { Actions } from './app.actions';
 import { Bet } from './app.model';
 
-export function appReducer(state = initialState, action: Action): BetState {
+export function appReducer(state = initialBetState, action: Action): BetState {
     switch (action.type) {
 
         case Actions.ADD_BET: {
