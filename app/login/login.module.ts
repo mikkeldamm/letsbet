@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 
 import { loginRouting } from './login.routes';
 import { LoginComponent } from './login.component';
+import { LoginGuard } from './login.guard';
 
 @NgModule({
     imports: [
@@ -13,6 +14,9 @@ import { LoginComponent } from './login.component';
     ],
     declarations: [
         LoginComponent
+    ],
+    providers: [
+        LoginGuard
     ]
 })
 export class LoginModule { }

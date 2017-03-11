@@ -1,26 +1,22 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, ElementRef, ViewChild, AfterViewInit, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
 
-import { RouterExtensions } from "nativescript-angular/router";
+import { RouterExtensions } from 'nativescript-angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
+import { Page } from "ui/page";
+import { TextField } from "ui/text-field";
+
+import { Actions } from '../store/app.actions';
+import { AppState } from '../store/app.state';
+import { Bet } from '../store/app.model';
+
+import { KeyboardObserver } from '../utils/keyboard-observer';
+import { guidGenerator } from '../utils/id-generator';
 
 import * as application from "application";
 import * as firebase from "nativescript-plugin-firebase";
-
-declare var UIKeyboardWillChangeFrameNotification: any;
-declare var UIKeyboardFrameEndUserInfoKey: any;
-declare var UIKeyboardAppearanceDark: any;
-declare var UITextAutocorrectionTypeNo: any;
-declare var UIView: any;
-
-declare const NSAttributedString: any;
-declare const NSDictionary: any;
-declare const NSForegroundColorAttributeName: any;
-
-import { action } from "ui/dialogs";
-import { Color } from "color";
-import { Page } from "ui/page";
-import { TextField } from "ui/text-field";
-import { iOSApplication } from "application";
 
 @Component({
     selector: "create-buyin",
@@ -28,36 +24,55 @@ import { iOSApplication } from "application";
     templateUrl: "./create-buyin.component.html",
     styleUrls: ["./create-buyin-common.css"]
 })
-export class CreateBuyinComponent implements AfterViewInit {
+export class CreateBuyinComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild("textContainer") textContainer: ElementRef;
     @ViewChild("textPushContainer") textPushContainer: ElementRef;
 
-    public buyinDescription: string = "";
+    public buyinDescription: string = '';
 
-    constructor(private _page: Page, private _router: Router, private _routerExtensions: RouterExtensions) {
+    private _keyboardHeightChangeSubscription: Subscription;
+    private _betId: string;
+
+    constructor(private _page: Page,
+                private _router: RouterExtensions,
+                private _route: ActivatedRoute,
+                private _store: Store<AppState>,
+                private _actions: Actions,
+                private _keyboardObserver: KeyboardObserver) {}
+
+    public ngOnInit() {
 
         this._page.actionBarHidden = true;
         this._page.enableSwipeBackNavigation = false;
         this._page.backgroundSpanUnderStatusBar = true;
 
         this._page.on("navigatingTo", () => {
-            this.test();
+            this.prepareTextField();
         });
+
+        this._route.params.subscribe(params => {
+            this._betId = params['id'];
+        });
+    }
+
+    public ngOnDestroy() {
+
+        if (this._keyboardHeightChangeSubscription) {
+            this._keyboardHeightChangeSubscription.unsubscribe();
+        }
     }
 
     public ngAfterViewInit() {
 
-        this.test();
-    }
-
-    public test() {
-
-        application.ios.addNotificationObserver(UIKeyboardWillChangeFrameNotification, (notification) => {
-            let height = notification.userInfo.valueForKey(UIKeyboardFrameEndUserInfoKey).CGRectValue.size.height;
-            console.log("HEIGHT: " + height + "px");
+        this._keyboardHeightChangeSubscription = this._keyboardObserver.heightChange$().subscribe((height) => {
             this.textPushContainer.nativeElement.height = height;
         });
+
+        this.prepareTextField();
+    }
+
+    public prepareTextField() {
 
         const textField = this.textContainer.nativeElement as TextField;
         if (textField) {
@@ -69,34 +84,16 @@ export class CreateBuyinComponent implements AfterViewInit {
         }
     }
 
-    public onTap() {
-
-
-        this._router.navigate(["/login"]);
-
-        /*
-        firebase.login({
-            type: firebase.LoginType.FACEBOOK,
-            scope: ['public_profile', 'email']
-        }).then(
-            (result) => {
-                console.log("Login OK: ");
-                console.log(JSON.stringify(result));
-            },
-            (errorMessage) => {
-                console.log("Login Error: ");
-                console.log(errorMessage);
-            });
-            */
+    public onGoToLogin() {
         
-
-        /*
-        const textField = this.textContainer.nativeElement as TextField;
-        if (textField) {
-            //textField.dismissSoftInput();
+        if (!this._betId) {
+            console.log("missing betid from url, so redirects to create page");
+            this._router.navigate(["/create-bet"]);
+            return;
         }
-                
-        this._routerExtensions.navigate(["/create-bet"]);
-        */
+
+        this._store.dispatch(this._actions.updateBetWithBuyin(this._betId, this.buyinDescription));
+
+        this._router.navigate(["/login", this._betId]);
     }
 }

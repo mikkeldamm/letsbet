@@ -4,7 +4,7 @@
   </AbsoluteLayout>
   <TextView #textContainer row="0" col="0" [Text]="betDescription" (propertyChange)="betDescription = $event.value" class="text-container"></TextView>
   <StackLayout row="1" col="0" class="toolbar-actions">
-    <Button class="next-button" Text="»" (tap)="onTap()"></Button>
+    <Button class="next-button" Text="»" (tap)="onGoToCreateBuyin()"></Button>
   </StackLayout>
   <Label #textPushContainer row="2" col="0" class="keyboard-underlay" height="0"></Label>
 </GridLayout>
