@@ -1,4 +1,4 @@
-import { Bet } from './app.model';
+import { Bet, Friend } from './app.model';
 
 export interface BetState {
     bets: Bet[]
@@ -8,6 +8,7 @@ export interface UserState {
     isLoggedIn: boolean;
     email: string;
     facebookAccessToken: string;
+    friends: Friend[];
 }
 
 export interface AppState {
@@ -22,5 +23,6 @@ export const initialBetState: BetState = {
 export const initialUserState: UserState = {
     isLoggedIn: false,
     email: null,
-    facebookAccessToken: null
+    facebookAccessToken: null,
+    friends: []
 };

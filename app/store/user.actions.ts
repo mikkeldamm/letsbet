@@ -7,6 +7,9 @@ import { User } from './user.model';
 export class Actions {
 
     static SET_USER = 'Set user';
+    static REMOVE_USER = 'Remove user';
+    static LOAD_FRIENDS_WITH_APP = 'Load friends with app';
+
     setUser(user: User): Action {
         return {
             type: Actions.SET_USER,
@@ -14,10 +17,15 @@ export class Actions {
         };
     }
 
-    static REMOVE_USER = 'Remove user';
     removeUser(): Action {
         return {
             type: Actions.REMOVE_USER
         }
+    }
+
+    loadFriendsWithApp(): Action {
+        return {
+            type: Actions.LOAD_FRIENDS_WITH_APP
+        };
     }
 }

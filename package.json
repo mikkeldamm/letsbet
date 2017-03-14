@@ -17,6 +17,7 @@
     "@angular/platform-browser-dynamic": "2.4.3",
     "@angular/router": "3.4.3",
     "@ngrx/core": "^1.2.0",
+    "@ngrx/effects": "^2.0.0",
     "@ngrx/store": "^2.2.1",
     "nativescript-angular": "1.4.0",
     "nativescript-contacts": "^1.5.0",

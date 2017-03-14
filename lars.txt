@@ -1,0 +1,44 @@
+
+        this._store
+            .map(s => s.user)
+            .subscribe(user => {
+
+                this.isLoggedIn = user.isLoggedIn;
+                this.email = user.email;
+                this.accessToken = user.facebookAccessToken;
+                this._cd.detectChanges();
+
+                if (this.isLoggedIn) {
+                    
+                    this.loggedInText += this.email + '\n';
+                    this.loggedInText += '-------------------\n';
+                    this.loggedInText += this.accessToken + '\n';
+
+                    this._http.get('https://graph.facebook.com/v2.8/me/friends?fields=installed&access_token=' + user.facebookAccessToken)
+                        .map(res => res.json())
+                        .subscribe(res => {
+                            console.log("FBDATA: " + JSON.stringify(res));
+                            this.loggedInText += '-------------------\n';
+                            this.loggedInText += JSON.stringify(res) + '\n';
+                            this._cd.detectChanges();
+                        }, err => {
+                            console.log("FBERROR: " + JSON.stringify(err));
+                        });
+
+                    this._http.get('https://graph.facebook.com/v2.8/me/?access_token=' + user.facebookAccessToken)
+                        .map(res => res.json())
+                        .subscribe(res => {
+                            console.log("FBDATA: " + JSON.stringify(res));
+                            this.loggedInText += '-------------------\n';
+                            this.loggedInText += JSON.stringify(res) + '\n';
+                            this._cd.detectChanges();
+                        }, err => {
+                            console.log("FBERROR: " + JSON.stringify(err));
+                        });
+
+                } else {
+
+                    this.loggedInText = '';
+                    this._cd.detectChanges();
+                }
+            });

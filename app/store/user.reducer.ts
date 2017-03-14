@@ -10,8 +10,13 @@ export function userReducer(state = initialUserState, action: Action): UserState
         case Actions.SET_USER: {
             return Object.assign({}, state, action.payload);
         }
+
         case Actions.REMOVE_USER: {
             return Object.assign({}, state, { isLoggedIn: false, email: null, facebookAccessToken: null });
+        }
+
+        case Actions.LOAD_FRIENDS_WITH_APP: {
+            return state;
         }
 
         default: {

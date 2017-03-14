@@ -1,0 +1,12 @@
+<GridLayout rows="100, *" columns="*" class="bg-container">
+  <AbsoluteLayout row="0" col="0" class="text-placeholder" *ngIf="!betDescription">
+    <Label #placeholderText Text="Mod hvem?"></Label>
+  </AbsoluteLayout>
+  <ListView #listContainer row="1" col="0" class="list-container" [items]="items">
+    <template let-item="item" let-i="index" let-odd="odd" let-even="even">
+      <StackLayout [class.odd]="odd" [class.even]="even">
+        <Label [text]='"index: " + item.name'></Label>
+      </StackLayout>
+    </template>
+  </ListView>
+</GridLayout>

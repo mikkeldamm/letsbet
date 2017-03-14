@@ -3,3 +3,9 @@ export interface User {
     readonly email: string;
     readonly facebookAccessToken: string;
 }
+
+export interface Friend {
+    readonly id: string;
+    readonly name: string;
+    readonly profilePicture: string;
+}
