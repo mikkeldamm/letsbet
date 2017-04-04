@@ -1,4 +1,5 @@
 export interface User {
+    readonly id: string;
     readonly isLoggedIn: boolean;
     readonly email: string;
     readonly facebookAccessToken: string;

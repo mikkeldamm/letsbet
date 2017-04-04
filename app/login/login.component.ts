@@ -50,9 +50,8 @@ export class LoginComponent implements OnInit {
         }).then((result) => {
 
             const token = FBSDKAccessToken.currentAccessToken().tokenString;
-            console.log("Facebook AccessToken: " + token);
-
             this._store.dispatch(this._actions.setUser({
+                id: result.uid,
                 isLoggedIn: true,
                 email: result.email,
                 facebookAccessToken: token

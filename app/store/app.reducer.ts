@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { BetState, initialBetState } from './app.state';
+import { BetState, initialBetState } from './bet.state';
 import { Actions } from './app.actions';
 import { Bet } from './app.model';
 

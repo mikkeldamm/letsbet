@@ -42,13 +42,9 @@ export class AppComponent implements OnInit {
 
                     } else {
 
-                        console.log("Logged in to firebase");
-                        console.log("User: " + JSON.stringify(data.user));
-
                         const token = FBSDKAccessToken.currentAccessToken().tokenString;
-                        console.log("Facebook AccessToken: " + token);
-
                         this._store.dispatch(this._actions.setUser({
+                            id: data.user.uid,
                             isLoggedIn: true,
                             email: data.user.email,
                             facebookAccessToken: token
@@ -58,20 +54,12 @@ export class AppComponent implements OnInit {
                 } else {
 
                     this._store.dispatch(this._actions.removeUser());
-                    console.log("Logged out from firebase");
                 }
             }
         }).then((instance) => {
             console.log("firebase.init done");
         }, (err) => {
             console.log("firebase.error");
-        });
-
-        this._store.select(s => s).subscribe(s => { 
-            if (s.bet.bets.length > 0) {
-                console.log("BETS 1: "); 
-                console.log(s.bet.bets[0].description); 
-            }
         });
 
         this._page.backgroundSpanUnderStatusBar = true;
