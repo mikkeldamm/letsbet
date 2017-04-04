@@ -11,7 +11,7 @@ import { Color } from 'color';
 import { Actions as AppActions } from '../store/app.actions';
 import { Actions as UserActions } from '../store/user.actions';
 import { AppState } from '../store/app.state';
-import { Bet } from '../store/app.model';
+import { Bet } from '../store/bet.model';
 import { Friend } from '../store/user.model';
 
 import * as application from "application";
@@ -65,7 +65,7 @@ export class CreateOpponentComponent implements OnInit {
         this.choosenFriend = friend;
     }
 
-    public onGoToBet() {
+    public createAndGoToBet() {
 
         this._store.dispatch(this._actions.updateBetWithOpponent(this._betId, this.choosenFriend.id));
     }

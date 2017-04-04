@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { BetState, initialBetState } from './bet.state';
 import { Actions } from './app.actions';
-import { Bet } from './app.model';
+import { Bet } from './bet.model';
 
 export function appReducer(state = initialBetState, action: Action): BetState {
     switch (action.type) {
@@ -18,6 +18,20 @@ export function appReducer(state = initialBetState, action: Action): BetState {
             const newBets = state.bets.map(b => {
                 if (b.id === betId) {
                     return Object.assign({}, b, { buyin: betBuyin });
+                }
+
+                return b;
+            })
+            return Object.assign({}, state, { bets: newBets });
+        }
+
+        case Actions.UPDATE_BET_WITH_OPPONENT: {
+            const betId = action.payload.id;
+            const opponentId = action.payload.opponentId;
+
+            const newBets = state.bets.map(b => {
+                if (b.id === betId) {
+                    return Object.assign({}, b, { opponentId });
                 }
 
                 return b;

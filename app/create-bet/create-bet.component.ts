@@ -9,7 +9,7 @@ import { TextField } from "ui/text-field";
 
 import { Actions } from '../store/app.actions';
 import { AppState } from '../store/app.state';
-import { Bet } from '../store/app.model';
+import { Bet } from '../store/bet.model';
 
 import { KeyboardObserver } from '../utils/keyboard-observer';
 import { guidGenerator } from '../utils/id-generator';
@@ -79,7 +79,8 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
         const newBet: Bet = {
             id: guidGenerator(),
             description: this.betDescription,
-            buyin: null
+            buyin: null,
+            opponentId: null
         };
 
         this._store.dispatch(this._actions.addBetWithDescription(newBet))

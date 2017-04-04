@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 
-import { Bet } from './app.model';
+import { Bet } from './bet.model';
 
 @Injectable()
 export class Actions {

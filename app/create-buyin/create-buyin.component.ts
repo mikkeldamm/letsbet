@@ -10,7 +10,7 @@ import { TextField } from "ui/text-field";
 
 import { Actions } from '../store/app.actions';
 import { AppState } from '../store/app.state';
-import { Bet } from '../store/app.model';
+import { Bet } from '../store/bet.model';
 
 import { KeyboardObserver } from '../utils/keyboard-observer';
 import { guidGenerator } from '../utils/id-generator';
@@ -87,13 +87,11 @@ export class CreateBuyinComponent implements OnInit, OnDestroy, AfterViewInit {
     public onGoToLogin() {
         
         if (!this._betId) {
-            console.log("missing betid from url, so redirects to create page");
             this._router.navigate(["/create-bet"]);
             return;
         }
 
         this._store.dispatch(this._actions.updateBetWithBuyin(this._betId, this.buyinDescription));
-
         this._router.navigate(["/login", this._betId]);
     }
 }

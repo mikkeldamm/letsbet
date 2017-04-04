@@ -16,6 +16,6 @@
   </ListView>
   <GridLayout row="2" col="0" rows="*" columns="*, 100" *ngIf="choosenFriend!==null">
     <Label row="0" col="0" class="choosen-name" [text]="choosenFriend.name"></Label>
-    <Button row="0" col="1" class="next-button" Text="»" (tap)="onGoToBet()"></Button>
+    <Button row="0" col="1" class="next-button" Text="»" (tap)="createAndGoToBet()"></Button>
   </GridLayout>
 </GridLayout>

@@ -1,4 +1,4 @@
-import { Bet } from './app.model';
+import { Bet } from './bet.model';
 
 export interface BetState {
     bets: Bet[]
