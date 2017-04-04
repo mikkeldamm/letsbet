@@ -19,6 +19,10 @@ export function userReducer(state = initialUserState, action: Action): UserState
             return state;
         }
 
+        case Actions.FRIENDS_LOADED: {
+            return Object.assign({}, state, { friends: action.payload });
+        }
+
         default: {
             return state;
         }

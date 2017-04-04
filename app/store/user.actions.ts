@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 
-import { User } from './user.model';
+import { User, Friend } from './user.model';
 
 @Injectable()
 export class Actions {
@@ -9,6 +9,7 @@ export class Actions {
     static SET_USER = 'Set user';
     static REMOVE_USER = 'Remove user';
     static LOAD_FRIENDS_WITH_APP = 'Load friends with app';
+    static FRIENDS_LOADED = 'Friends loaded';
 
     setUser(user: User): Action {
         return {
@@ -23,9 +24,17 @@ export class Actions {
         }
     }
 
-    loadFriendsWithApp(): Action {
+    loadFriendsWithApp(accessToken): Action {
         return {
-            type: Actions.LOAD_FRIENDS_WITH_APP
+            type: Actions.LOAD_FRIENDS_WITH_APP,
+            payload: accessToken
+        };
+    }
+
+    friendsLoaded(friends: Friend[]): Action {
+        return {
+            type: Actions.FRIENDS_LOADED,
+            payload: friends
         };
     }
 }

@@ -8,6 +8,7 @@ export class Actions {
 
     static ADD_BET_WITH_DESCRIPTION = 'Add bet with description';
     static UPDATE_BET_WITH_BUYIN = 'Update bet with buyin';
+    static UPDATE_BET_WITH_OPPONENT = 'Update bet with opponent';
 
     addBetWithDescription(bet: Bet): Action {
         return {
@@ -21,5 +22,12 @@ export class Actions {
             type: Actions.UPDATE_BET_WITH_BUYIN,
             payload: { id, buyin }
         };
+    }
+
+    updateBetWithOpponent(id: string, opponentId: string): Action {
+        return {
+            type: Actions.UPDATE_BET_WITH_OPPONENT,
+            payload: { id, opponentId }
+        }
     }
 }

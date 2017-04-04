@@ -6,6 +6,7 @@ export interface User {
 
 export interface Friend {
     readonly id: string;
+    readonly facebookId: number;
     readonly name: string;
     readonly profilePicture: string;
 }

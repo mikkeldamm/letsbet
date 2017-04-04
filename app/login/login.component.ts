@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.state';
+import { Actions as UserActions } from '../store/user.actions';
 
 import { RouterExtensions } from "nativescript-angular/router";
 
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
     constructor(private _page: Page,
                 private _router: RouterExtensions,
                 private _route: ActivatedRoute,
-                private _store: Store<AppState>) {}
+                private _store: Store<AppState>,
+                private _actions: UserActions) {}
 
     public ngOnInit() {
 
@@ -47,13 +49,14 @@ export class LoginComponent implements OnInit {
             scope: ['public_profile', 'email', 'user_friends']
         }).then((result) => {
 
-            let currentState;
-            this._store.take(1).subscribe(s => currentState = s);
+            const token = FBSDKAccessToken.currentAccessToken().tokenString;
+            console.log("Facebook AccessToken: " + token);
 
-            console.log("-----------------")
-            console.log("- Facebook login success");
-            console.log("- Redirect to create opponent");
-            console.log("- Current state: " + JSON.stringify(currentState));
+            this._store.dispatch(this._actions.setUser({
+                isLoggedIn: true,
+                email: result.email,
+                facebookAccessToken: token
+            }));
 
             this._router.navigate(['/create-opponent', this._betId]);
 

@@ -17,26 +17,22 @@ import { Friend } from '../store/user.model';
 import * as application from "application";
 import * as firebase from "nativescript-plugin-firebase";
 
-export class DataItem {
-    constructor(public id: number, public name: string) { }
-}
-
 @Component({
     selector: "create-opponent",
     moduleId: module.id,
     templateUrl: "./create-opponent.component.html",
     styleUrls: ["./create-opponent-common.css"]
 })
-export class CreateOpponentComponent implements OnInit, AfterViewInit {
+export class CreateOpponentComponent implements OnInit {
 
     @ViewChild("listContainer") listContainer: ElementRef;
 
     public friends: Friend[] = [];
+    public choosenFriend: Friend = null;
 
     private _betId: string;
 
     constructor(private _page: Page,
-                private _router: RouterExtensions,
                 private _route: ActivatedRoute,
                 private _store: Store<AppState>,
                 private _actions: AppActions,
@@ -48,39 +44,29 @@ export class CreateOpponentComponent implements OnInit, AfterViewInit {
         this._page.enableSwipeBackNavigation = false;
         this._page.backgroundSpanUnderStatusBar = true;
 
-        this._page.on("navigatingTo", () => {
-            this.setNewSeperatorColor();
-        });
-
         this._route.params.subscribe(params => {
             this._betId = params['id'];
         });
 
         this._store
             .select(s => s.user)
-            .map(u => u.friends)
-            .filter(friends => friends.length > 0)
-            .subscribe(friends => {
-                this.friends = friends;
-            });
+            .filter(u => u.friends.length > 0)
+            .subscribe(u => {
+                this.friends = u.friends;
+            }); 
 
-        this._store.dispatch(this._userActions.loadFriendsWithApp());
-
-        for (var i = 0; i < 3; i++) {
-            //this.friends.push(new DataItem(i, "data item " + i));
-        }        
+        let accessToken: string;
+        this._store.take(1).select(s => s.user).subscribe(u => accessToken = u.facebookAccessToken);
+        this._store.dispatch(this._userActions.loadFriendsWithApp(accessToken));
     }
 
-    public ngAfterViewInit() {
+    public onFriendTap(friend: Friend) {
 
-        this.setNewSeperatorColor();
+        this.choosenFriend = friend;
     }
 
-    public setNewSeperatorColor() {
+    public onGoToBet() {
 
-        const listView = this.listContainer.nativeElement as ListView;
-        if (listView) {
-            listView.ios.separatorColor = new Color("#e20000");
-        }
+        this._store.dispatch(this._actions.updateBetWithOpponent(this._betId, this.choosenFriend.id));
     }
 }
