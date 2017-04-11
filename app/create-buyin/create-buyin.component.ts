@@ -16,7 +16,6 @@ import { KeyboardObserver } from '../utils/keyboard-observer';
 import { guidGenerator } from '../utils/id-generator';
 
 import * as application from "application";
-import * as firebase from "nativescript-plugin-firebase";
 
 @Component({
     selector: "create-buyin",

@@ -9,45 +9,84 @@ import { of } from 'rxjs/observable/of';
 
 import 'rxjs/add/operator/catch';
 
-import { Friend } from './user.model';
+import { User, Friend, FacebookFriend } from './user.model';
 import { Actions as UserActions } from './user.actions';
+
+import * as firebase from "nativescript-plugin-firebase";
 
 @Injectable()
 export class UserEffects {
 
     @Effect()
-    load$: Observable<Action> = this._actions$
+    loadFriendsWithApp$: Observable<Action> = this._actions$
         .ofType(UserActions.LOAD_FRIENDS_WITH_APP)
         .switchMap(s => {
-            return of(this._userActions.friendsLoaded([{ 
-                id: "10212394758567559",
-                facebookId: 10212394758567559,
-                name: "Rasmus Idémager Smartass Madsen",
-                profilePicture: "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/16426193_10212182172693045_2235338685028513534_n.jpg?oh=86a15cf073d817a93839fde930f39b27&oe=5959C0C8"
-            }]));
-            /*
             return this._http
                 .get(`https://graph.facebook.com/v2.8/me/friends?fields=picture,id,name,installed&access_token=${s.payload}`)
                 .map(res => res.json())
                 .map(fb => {
                     return fb.data.map(fbFriend => {
-                        return <Friend>{
-                            id: fbFriend.id,
+                        return <FacebookFriend>{
+                            facebookId: fbFriend.id,
                             name: fbFriend.name,
                             profilePicture: fbFriend.picture.data.url
                         };
                     });
                 })
-                .map(friends => this._userActions.friendsLoaded(friends))
+                .map(friends => this._userActions.facebookFriendsLoaded(friends))
                 .catch((err) => {
-                    console.log("ERROR---------------------------");
+                    console.log("ERROR LOADING FACEBOOK FRIENDS ----");
                     console.log(JSON.stringify(err));
-                    return of(this._userActions.friendsLoaded([]));
+                    return of(this._userActions.facebookFriendsLoaded([]));
                 });
-                */
+        });
+
+    @Effect()
+    setUser$: Observable<Action> = this._actions$
+        .ofType(UserActions.SET_USER)
+        .switchMap(s => {
+            return this._http
+                .get(`https://graph.facebook.com/v2.8/me?fields=id&access_token=${s.payload.facebookAccessToken}`)
+                .map(res => res.json())
+                .map(fb => Object.assign({}, s.payload, { facebookId: fb.id }))
+        })
+        .switchMap(user => {
+            return Observable.fromPromise(
+                firebase.update(`/users`, { [user.facebookId]: user.id })
+            );
+        })
+        .map(s => this._userActions.userSaved())
+        .catch((err) => of(this._userActions.userNotSaved()));
+
+    @Effect()
+    facebookFriendsLoaded$: Observable<Action> = this._actions$
+        .ofType(UserActions.FACEBOOK_FRIENDS_LOADED)
+        .switchMap(s => {
+            return Observable.fromPromise(
+                new Promise<Friend[]>((resolve, reject) => {
+                    let _friends = [];
+                    s.payload.forEach(f => {
+                        firebase.query(
+                            () => {}, 
+                            `/users/${f.facebookId}`,
+                            { singleEvent: true, orderBy: { type: firebase.QueryOrderByType.KEY } }
+                        ).then(d => {
+                            if (d.value) {
+                                _friends.push(Object.assign({}, f, { id: d.value }));
+                                if (_friends.length === s.payload.length) {
+                                    resolve(_friends);
+                                }
+                            }
+                        });
+                    });
+                })
+            )
+        })
+        .switchMap(friends => {
+            return of(this._userActions.friendsLoaded(friends));
         });
 
     constructor(private _actions$: Actions,
-        private _userActions: UserActions,
-        private _http: Http) { }
+                private _userActions: UserActions,
+                private _http: Http) { }
 }

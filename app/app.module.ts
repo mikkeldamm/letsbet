@@ -11,6 +11,7 @@ import { rootReducer } from './store/root.reducer';
 import { Actions as AppActions } from './store/app.actions';
 import { Actions as UserActions } from './store/user.actions';
 import { UserEffects } from './store/user.effects';
+import { BetEffects } from './store/bet.effects';
 
 import { IOS_UTILS } from './utils/index';
 
@@ -34,6 +35,7 @@ setStatusBarColors();
         NativeScriptRouterModule.forRoot(appRoutes),
         StoreModule.provideStore(rootReducer),
         EffectsModule.run(UserEffects),
+        EffectsModule.run(BetEffects),
         CreateBetModule,
         CreateBuyinModule,
         LoginModule,

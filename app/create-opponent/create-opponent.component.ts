@@ -68,5 +68,6 @@ export class CreateOpponentComponent implements OnInit {
     public createAndGoToBet() {
 
         this._store.dispatch(this._actions.updateBetWithOpponent(this._betId, this.choosenFriend.id));
+        this._store.dispatch(this._actions.saveBet(this._betId));
     }
 }
