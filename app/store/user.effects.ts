@@ -13,6 +13,7 @@ import { User, Friend, FacebookFriend } from './user.model';
 import { Actions as UserActions } from './user.actions';
 
 import * as firebase from "nativescript-plugin-firebase";
+const TnsOneSignal = require('nativescript-onesignal').TnsOneSignal;
 
 @Injectable()
 export class UserEffects {
@@ -42,23 +43,6 @@ export class UserEffects {
         });
 
     @Effect()
-    setUser$: Observable<Action> = this._actions$
-        .ofType(UserActions.SET_USER)
-        .switchMap(s => {
-            return this._http
-                .get(`https://graph.facebook.com/v2.8/me?fields=id&access_token=${s.payload.facebookAccessToken}`)
-                .map(res => res.json())
-                .map(fb => Object.assign({}, s.payload, { facebookId: fb.id }))
-        })
-        .switchMap(user => {
-            return Observable.fromPromise(
-                firebase.update(`/users`, { [user.facebookId]: user.id })
-            );
-        })
-        .map(s => this._userActions.userSaved())
-        .catch((err) => of(this._userActions.userNotSaved()));
-
-    @Effect()
     facebookFriendsLoaded$: Observable<Action> = this._actions$
         .ofType(UserActions.FACEBOOK_FRIENDS_LOADED)
         .switchMap(s => {
@@ -85,6 +69,37 @@ export class UserEffects {
         .switchMap(friends => {
             return of(this._userActions.friendsLoaded(friends));
         });
+
+    @Effect()
+    setUser$: Observable<Action> = this._actions$
+        .ofType(UserActions.SET_USER)
+        .switchMap(s => {
+            return this._http
+                .get(`https://graph.facebook.com/v2.8/me?fields=id&access_token=${s.payload.facebookAccessToken}`)
+                .map(res => res.json())
+                .map(fb => Object.assign({}, s.payload, { facebookId: fb.id }))
+        })
+        .switchMap(user => {
+            return Observable.fromPromise(
+                firebase.update(`/users`, { [user.facebookId]: user.id })
+            ).map(x => user);
+        })
+        .switchMap(user => {
+            return Observable.fromPromise(new Promise((resolve, reject) => {
+                TnsOneSignal.IdsAvailable((userId, token) => {
+                    firebase
+                        .update(`/users_push_tokens`, { [user.id]: { token: token, userId: userId } })
+                        .then(resolve)
+                        .catch(reject);
+                });
+            }));
+        })
+        .map(s => this._userActions.userSaved())
+        .catch((err) => {
+            console.log("ERRRRRRRROOOOOOOOORRRRRR: " + JSON.stringify(err));
+            return of(this._userActions.userNotSaved());
+        });
+
 
     constructor(private _actions$: Actions,
                 private _userActions: UserActions,

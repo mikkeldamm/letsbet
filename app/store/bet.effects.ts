@@ -29,10 +29,7 @@ export class BetEffects {
             const betId = action.payload;
             const bet = appState.bet.bets.find(b => b.id === betId);
 
-            console.log("BETID: ", betId);
-            console.log("BET: ", JSON.stringify(bet));
-
-            firebase.push(
+            return Observable.fromPromise(firebase.push(
                 `/bets`,
                 {
                     id: bet.id,
@@ -46,13 +43,9 @@ export class BetEffects {
                         buyin: bet.buyin
                     }
                 }
-            ).then(a => {
-                console.log("BET SAVED!");
-            }).catch(b => {
-                console.log("WHAT!!!!" + b.message);
-            });
-
-            return of(this._betActions.betSaved());
+            ))
+            .map(d => this._betActions.betSaved())
+            .catch(err => of(this._betActions.betSaved()));
         });
 
     constructor(private _store$: Store<AppState>,

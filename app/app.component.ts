@@ -9,7 +9,9 @@ import { topmost } from "ui/frame";
 import { Actions as UserActions } from './store/user.actions';
 import { User } from './store/user.model';
 
+import * as application from "application";
 import * as firebase from "nativescript-plugin-firebase";
+const TnsOneSignal = require('nativescript-onesignal').TnsOneSignal;
 
 declare var FBSDKAccessToken: any;
 
@@ -26,6 +28,23 @@ export class AppComponent implements OnInit {
                 private _actions: UserActions) {}
 
     public ngOnInit() {
+
+        if (application.ios) {
+            application.on(application.launchEvent, function (args: application.ApplicationEventData) {
+
+                TnsOneSignal.initWithLaunchOptionsAppIdHandleNotificationReceivedHandleNotificationActionSettings(
+                    args.ios,
+                    'b07659e9-7869-437d-badf-d62a878414a8',
+                    (a) => {
+                        console.log("Notification received", JSON.stringify(a));
+                    },
+                    (b) => {
+                        console.log("Notification action", JSON.stringify(b));
+                    },
+                    null
+                );
+            });
+        }
 
         firebase.init({
             onAuthStateChanged: (data) => {

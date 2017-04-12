@@ -2,7 +2,7 @@
     "using_ios": true,
     "using_android": false,
     "remote_config": false,
-    "messaging": true,
+    "messaging": false,
     "crash_reporting": false,
     "storage": false,
     "facebook_auth": true,
