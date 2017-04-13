@@ -1,15 +1,13 @@
 ### Letsbet App
 
 #### Setup
-Run `tns install` or `tns run ios` to make project ready for build  
+Run `tns prepare ios`
+Run `tns build ios`
+
+If it doesn't work, then try to remove the ios platform:
+`tns platform remove ios`
+And then add it again:
+`tns platform add ios`
 
 #### Run development 
-Run `tns run ios --emulator`  
-Run `tns livesync ios --emulator --watch` for live reloading  
-Run `tns run ios` for device debugging  
-Run `tns livesync ios --watch` for device debugging with live reloading  
-
-
-"nativescript-toolbar": "^0.3.0",
-"nativescript-statusbar": "^1.0.0",
-"nativescript-iqkeyboardmanager": "1.0.1",
+Run `tns run ios` - Will run in emulator if no device is connected
