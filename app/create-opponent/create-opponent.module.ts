@@ -1,14 +1,12 @@
-import { NativeScriptModule } from "nativescript-angular/platform";
-import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NgModule } from "@angular/core";
+import { CommonModule } from '@angular/common';
 
 import { createOpponentsRouting } from "./create-opponent.routes";
 import { CreateOpponentComponent } from "./create-opponent.component";
 
 @NgModule({
     imports: [
-        NativeScriptModule,
-        NativeScriptFormsModule,
+        CommonModule,
         createOpponentsRouting
     ],
     declarations: [

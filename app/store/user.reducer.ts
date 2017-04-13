@@ -20,6 +20,7 @@ export function userReducer(state = initialUserState, action: Action): UserState
         }
 
         case Actions.FRIENDS_LOADED: {
+            console.log("FRIENDS LOADED: ", JSON.stringify(action.payload));
             return Object.assign({}, state, { friends: action.payload });
         }
 

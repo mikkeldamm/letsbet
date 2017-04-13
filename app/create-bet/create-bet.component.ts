@@ -62,16 +62,10 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
         this.prepareTextField();
     }
 
-    public prepareTextField() {
+    public changeDescription(description: string) {
 
-        const textField = this.textContainer.nativeElement as TextField;
-        if (textField) {
-
-            textField.ios.keyboardAppearance = UIKeyboardAppearanceDark;
-            textField.ios.autocorrectionType = UITextAutocorrectionTypeNo;
-            textField.ios.inputAccessoryView = UIView.alloc().init();
-            textField.focus();
-        }
+        console.log(description);
+        this.betDescription = description;
     }
 
     public onGoToCreateBuyin() {
@@ -86,5 +80,17 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(this._actions.addBetWithDescription(newBet))
 
         this._router.navigate(["/create-buyin", newBet.id]);
+    }
+
+    private prepareTextField() {
+
+        const textField = this.textContainer.nativeElement as TextField;
+        if (textField) {
+
+            textField.ios.keyboardAppearance = UIKeyboardAppearanceDark;
+            textField.ios.autocorrectionType = UITextAutocorrectionTypeNo;
+            textField.ios.inputAccessoryView = UIView.alloc().init();
+            textField.focus();
+        }
     }
 }

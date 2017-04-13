@@ -1,6 +1,5 @@
-import { NativeScriptModule } from "nativescript-angular/platform";
-import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NgModule } from "@angular/core";
+import { CommonModule } from '@angular/common';
 
 import { loginRouting } from './login.routes';
 import { LoginComponent } from './login.component';
@@ -8,8 +7,7 @@ import { LoginGuard } from './login.guard';
 
 @NgModule({
     imports: [
-        NativeScriptModule,
-        NativeScriptFormsModule,
+        CommonModule,
         loginRouting
     ],
     declarations: [
