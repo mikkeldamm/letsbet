@@ -3,7 +3,7 @@
     <Label #placeholderText text="Mod hvem?"></Label>
   </AbsoluteLayout>
   <ListView row="1" col="0" class="list-container" [items]="friends">
-    <ng-template let-item="item">
+    <ng-template let-friend="item">
       <GridLayout columns="auto, *" class="item-container" (tap)="onFriendTap(friend)">
         <StackLayout col="0" class="item-picture-container">
           <Image [src]="friend.profilePicture" class="item-picture"></Image>

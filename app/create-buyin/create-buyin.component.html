@@ -2,7 +2,7 @@
   <AbsoluteLayout class="text-placeholder" *ngIf="!buyinDescription">
     <Label text="Hvad vædder i?"></Label>
   </AbsoluteLayout>
-  <TextView #textContainer row="0" col="0" [text]="buyinDescription" (propertyChange)="buyinDescription = $event.value" class="text-container"></TextView>
+  <TextView #textContainer row="0" col="0" [text]="buyinDescription" (textChange)="buyinDescription = $event.value" class="text-container"></TextView>
   <StackLayout row="1" col="0" class="toolbar-actions">
     <Button class="next-button" text="»" (tap)="onGoToLogin()"></Button>
   </StackLayout>

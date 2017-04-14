@@ -1,11 +1,21 @@
 <GridLayout rows="*, auto, auto" columns="*" class="bg-container">
-  <AbsoluteLayout class="text-placeholder">
-    <Label #placeholderText text="Hvad er væddemålet?" *ngIf="!betDescription"></Label>
-  </AbsoluteLayout>
-  <TextView #textContainer class="text-container" row="0" col="0" [text]="betDescription" (propertyChange)="changeDescription($event.value)">
-  </TextView>
-  <StackLayout row="1" col="0" class="toolbar-actions">
-    <Button class="next-button" text="»" (tap)="onGoToCreateBuyin()"></Button>
-  </StackLayout>
-  <Label #textPushContainer row="2" col="0" class="keyboard-underlay" height="0"></Label>
+    <AbsoluteLayout class="text-placeholder">
+        <Label
+            #placeholderText
+            text="Hvad er væddemålet?"
+            *ngIf="!betDescription">
+        </Label>
+    </AbsoluteLayout>
+    <TextView
+        #textContainer 
+        class="text-container"
+        row="0"
+        col="0"
+        [text]="betDescription"
+        (textChange)="changeDescription($event.value)">
+    </TextView>
+    <StackLayout row="1" col="0" class="toolbar-actions">
+        <Button class="next-button" text="»" (tap)="onGoToCreateBuyin()"></Button>
+    </StackLayout>
+    <Label #textPushContainer row="2" col="0" class="keyboard-underlay" height="0"></Label>
 </GridLayout>

@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptHttpModule } from "nativescript-angular/http";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 import { rootReducer } from './store/root.reducer';
@@ -31,6 +32,7 @@ setStatusBarColors();
     imports: [
         NativeScriptModule,
         NativeScriptHttpModule,
+        NativeScriptFormsModule,
         NativeScriptRouterModule,
         NativeScriptRouterModule.forRoot(appRoutes),
         StoreModule.provideStore(rootReducer),

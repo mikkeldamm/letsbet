@@ -25,7 +25,7 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild("textContainer") textContainer: ElementRef;
     @ViewChild("textPushContainer") textPushContainer: ElementRef;
 
-    public betDescription: string = "";
+    public betDescription: string = '';
 
     private _keyboardHeightChangeSubscription: Subscription;
 
@@ -64,7 +64,6 @@ export class CreateBetComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public changeDescription(description: string) {
 
-        console.log(description);
         this.betDescription = description;
     }
 

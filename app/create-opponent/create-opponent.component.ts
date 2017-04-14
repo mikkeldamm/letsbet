@@ -43,7 +43,7 @@ export class CreateOpponentComponent implements OnInit {
             .filter(u => u.friends.length > 0)
             .subscribe(u => {
                 this.friends = u.friends;
-                console.log("FRIENDS LOADED AND SET!!!!!", JSON.stringify(this.friends));
+                console.log("FRIENDS LOADED AND SET!!!!!!!", JSON.stringify(this.friends));
             }); 
 
         let accessToken: string;
