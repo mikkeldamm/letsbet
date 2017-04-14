@@ -1,21 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { RouterExtensions } from 'nativescript-angular/router';
-
 import { Page } from "ui/page";
-import { ListView } from "ui/list-view";
-import { Color } from 'color';
 
 import { Actions as AppActions } from '../store/app.actions';
 import { Actions as UserActions } from '../store/user.actions';
 import { AppState } from '../store/app.state';
-import { Bet } from '../store/bet.model';
 import { Friend } from '../store/user.model';
-
-import * as application from "application";
-import * as firebase from "nativescript-plugin-firebase";
 
 @Component({
     selector: "create-opponent",
@@ -24,8 +16,6 @@ import * as firebase from "nativescript-plugin-firebase";
     styleUrls: ["./create-opponent-common.css"]
 })
 export class CreateOpponentComponent implements OnInit {
-
-    @ViewChild("listContainer") listContainer: ElementRef;
 
     public friends: Friend[] = [];
     public choosenFriend: Friend = null;
@@ -53,6 +43,7 @@ export class CreateOpponentComponent implements OnInit {
             .filter(u => u.friends.length > 0)
             .subscribe(u => {
                 this.friends = u.friends;
+                console.log("FRIENDS LOADED AND SET!!!!!!!", JSON.stringify(this.friends));
             }); 
 
         let accessToken: string;

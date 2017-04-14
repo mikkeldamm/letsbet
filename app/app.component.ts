@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
                     if (!FBSDKAccessToken.currentAccessToken()) {
                         
                         firebase.logout().then(() => {
-                            console.log("Successfully logging out from firebase");
+                            console.log("Successfully logging out from firebase!");
                         }).catch((err) => {
                             console.log("Error logging out from firebase");
                         });
@@ -76,9 +76,9 @@ export class AppComponent implements OnInit {
                 }
             }
         }).then((instance) => {
-            console.log("firebase.init done");
+            console.log("firebase.init done!");
         }, (err) => {
-            console.log("firebase.error");
+            console.log("firebase.error", JSON.stringify(err));
         });
 
         this._page.backgroundSpanUnderStatusBar = true;

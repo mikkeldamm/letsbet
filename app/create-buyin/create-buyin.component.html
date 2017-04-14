@@ -1,10 +1,10 @@
 <GridLayout rows="*, auto, auto" columns="*" class="bg-container">
   <AbsoluteLayout class="text-placeholder" *ngIf="!buyinDescription">
-    <Label Text="Hvad vædder i?"></Label>
+    <Label text="Hvad vædder i?"></Label>
   </AbsoluteLayout>
-  <TextView #textContainer row="0" col="0" [Text]="buyinDescription" (propertyChange)="buyinDescription = $event.value" class="text-container"></TextView>
+  <TextView #textContainer row="0" col="0" [text]="buyinDescription" (textChange)="buyinDescription = $event.value" class="text-container"></TextView>
   <StackLayout row="1" col="0" class="toolbar-actions">
-    <Button class="next-button" Text="»" (tap)="onGoToLogin()"></Button>
+    <Button class="next-button" text="»" (tap)="onGoToLogin()"></Button>
   </StackLayout>
   <Label #textPushContainer row="2" col="0" class="keyboard-underlay" height="0"></Label>
 </GridLayout>

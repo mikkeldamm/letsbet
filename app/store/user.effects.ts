@@ -36,8 +36,9 @@ export class UserEffects {
                 })
                 .map(friends => this._userActions.facebookFriendsLoaded(friends))
                 .catch((err) => {
-                    console.log("ERROR LOADING FACEBOOK FRIENDS ----");
+                    console.log("---- [1: ERROR LOADING FACEBOOK FRIENDS]: ");
                     console.log(JSON.stringify(err));
+                    console.log("---- [1: END]");
                     return of(this._userActions.facebookFriendsLoaded([]));
                 });
         });
@@ -50,11 +51,13 @@ export class UserEffects {
                 new Promise<Friend[]>((resolve, reject) => {
                     let _friends = [];
                     s.payload.forEach(f => {
+                        console.log("FOR EACH FRIEND: ", JSON.stringify(f));
                         firebase.query(
                             () => {}, 
                             `/users/${f.facebookId}`,
                             { singleEvent: true, orderBy: { type: firebase.QueryOrderByType.KEY } }
                         ).then(d => {
+                            console.log("FRIEND VALUE: ", JSON.stringify(d));
                             if (d.value) {
                                 _friends.push(Object.assign({}, f, { id: d.value }));
                                 if (_friends.length === s.payload.length) {
